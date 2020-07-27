@@ -491,6 +491,8 @@ numFiles = numel(Files_405);
 index = [];
 for jj = 1:size(Files,1) 
    if contains(Files_405(jj).name,'ROI01') && ~contains(Files_405(jj).name,{'MOCK','DTT','H2O2','control'})
+   % here for ROI2
+ % if contains(Files_405(jj).name,'ROI02') && ~contains(Files_405(jj).name,{'MOCK','DTT','H2O2','control'})
      index = [index,jj];             
    end  
 end
@@ -695,7 +697,13 @@ end
 set(gca,'FontSize',20)
 hold off
 
+% mean, variability and CI for fluorescence intensities (ratios)
 MeanIntensityMeans = mean(IntensityMeans,'omitnan');
 SEMIntensityMeans = std(IntensityMeans,'omitnan')/sqrt(size(Files,1));
 CI95IntensityMeans = [MeanIntensityMeans+1.96*SEMIntensityMeans;
     MeanIntensityMeans-1.96*SEMIntensityMeans];
+
+% same, but normalized to BIN1
+MeanIntensityMeans_norm = MeanIntensityMeans/MeanIntensityMeans(1);
+SEMIntensityMeans_norm = SEMIntensityMeans/MeanIntensityMeans(1);
+CI95IntensityMeans_norm = CI95IntensityMeans/MeanIntensityMeans(1);
